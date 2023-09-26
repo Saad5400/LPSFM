@@ -1,7 +1,5 @@
 using System.Diagnostics;
 using System.Globalization;
-using System.Net.NetworkInformation;
-using System.Xml.Linq;
 using LPSFM.Properties;
 using Microsoft.Win32;
 using WK.Libraries.HotkeyListenerNS;
