@@ -8,10 +8,15 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Configurations>Debug;Release;test</Configurations>
 		<Version>1.0.2</Version>
+		<ApplicationIcon>Icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <AdditionalFiles Remove="app.manifest" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

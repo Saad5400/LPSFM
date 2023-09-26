@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Net.NetworkInformation;
 using System.Xml.Linq;
 using LPSFM.Properties;
+using Microsoft.Win32;
 using WK.Libraries.HotkeyListenerNS;
 
 namespace LPSFM;
@@ -354,17 +355,23 @@ public partial class MainForm : Form
     {
         if (_explorer)
         {
+            var ourKey = Registry.LocalMachine;
+            ourKey = ourKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+            ourKey.SetValue("AutoRestartShell", 0);
             var processes = Process.GetProcessesByName("explorer");
             foreach (var process in processes)
             {
                 process.Kill();
+                process.WaitForExit();
             }
+            ourKey.SetValue("AutoRestartShell", 1);
+
             _explorer = false;
             Log("Explorer closed.");
         }
         else
         {
-            Process.Start("explorer.exe");
+            System.Diagnostics.Process.Start("explorer.exe");
             _explorer = true;
             Log("Explorer opened.");
         }
