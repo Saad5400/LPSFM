@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Xml.Linq;
 using LPSFM.Properties;
 using WK.Libraries.HotkeyListenerNS;
 
@@ -29,7 +30,7 @@ public partial class MainForm : Form
 
     public void Log(string message)
     {
-        logTextBox.Text = DateTime.Now.ToString("mm:ss") + @": " + message + Environment.NewLine + logTextBox.Text;
+        logTextBox.Text = $@"{DateTime.Now:mm:ss}: {message}" + Environment.NewLine + logTextBox.Text;
     }
 
     #region inital setup
@@ -117,8 +118,7 @@ public partial class MainForm : Form
 
     private void QuickSaveButton_Click(object sender, EventArgs e)
     {
-        var name = "Quick Save";
-        Save(name);
+        Save("Quick Save");
     }
 
     private void ManualSaveButton_Click(object sender, EventArgs e)
@@ -190,67 +190,71 @@ public partial class MainForm : Form
 
     #region strip menu
 
-    private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
+    public bool TryGetSelectedItemName(out string? name)
     {
-        if (savesListBox.SelectedItem == null)
+        name = savesListBox.SelectedItem?.ToString();
+
+        if (name is null)
         {
-            MessageBox.Show(@"Please select a save to load.");
-            return;
+            MessageBox.Show(@"Please select a save item.");
+            return false;
         }
 
-        var name = savesListBox.SelectedItem.ToString();
+        return true;
+    }
 
-        var dir = Directory.GetDirectories(backupPathTextBox.Text)
+    public bool TryGetSavePath(string saveName, out string? dirPath)
+    {
+        dirPath = Directory.GetDirectories(backupPathTextBox.Text)
             .FirstOrDefault(x =>
             {
                 var dirName = new DirectoryInfo(x).Name;
-                return dirName.Split('_')[NameIndex].Equals(name);
+                return dirName.Split('_')[NameIndex].Equals(saveName);
             });
 
-        if (dir is null)
+        if (dirPath is null)
         {
-            Log(@"Could not find save folder.");
-            return;
+            Log("Could not find save item.");
+            return false;
         };
 
-        Save("Backup");
-        Helpers.CopyFilesRecursively(dir, savePathTextBox.Text);
+        return true;
+    }
 
-        Log("Loaded " + name + ".");
+    private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (!TryGetSelectedItemName(out var saveName))
+            return;
+
+        if (!TryGetSavePath(saveName!, out var dirPath))
+            return;
+
+        if (!saveName!.Equals("Backup"))
+            Save("Backup");
+
+        Helpers.CopyFilesRecursively(dirPath!, savePathTextBox.Text);
+
+        Log("Loaded " + saveName + ".");
     }
 
     public void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        if (savesListBox.SelectedItem == null)
-        {
-            MessageBox.Show(@"Please select a save to delete.");
+        if (!TryGetSelectedItemName(out var saveName))
             return;
-        }
 
-        var name = savesListBox.SelectedItem.ToString();
-
-        var confirmResult = MessageBox.Show($@"Are you sure you want to delete '{name}' save files?", @"Confirm Delete", MessageBoxButtons.YesNo);
-
-        if (confirmResult != DialogResult.Yes) return;
-
-        var dir = Directory.GetDirectories(backupPathTextBox.Text)
-            .FirstOrDefault(x =>
-            {
-                var dirName = new DirectoryInfo(x).Name;
-                return dirName.Split('_')[NameIndex].Equals(name);
-            });
-
-        if (dir is null)
-        {
-            Log(@"Could not find save folder.");
+        if (!TryGetSavePath(saveName!, out var dirPath))
             return;
-        };
 
-        Directory.Delete(dir, true);
+        var confirmResult = MessageBox.Show($@"Are you sure you want to delete '{saveName}' save files?", @"Confirm Delete", MessageBoxButtons.YesNo);
+
+        if (confirmResult != DialogResult.Yes)
+            return;
+
+        Directory.Delete(dirPath!, true);
 
         ListSaves();
 
-        Log("Deleted " + name + ".");
+        Log("Deleted " + saveName + ".");
     }
 
     #endregion
