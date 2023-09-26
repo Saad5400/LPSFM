@@ -1,6 +1,6 @@
 ﻿namespace LPSFM
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -112,7 +112,7 @@
             quickSaveButton.TabIndex = 10;
             quickSaveButton.Text = "Quick Save";
             quickSaveButton.UseVisualStyleBackColor = true;
-            quickSaveButton.Click += quickSaveButton_Click;
+            quickSaveButton.Click += QuickSaveButton_Click;
             // 
             // manualSaveButton
             // 
@@ -122,7 +122,7 @@
             manualSaveButton.TabIndex = 11;
             manualSaveButton.Text = "Manual Save";
             manualSaveButton.UseVisualStyleBackColor = true;
-            manualSaveButton.Click += manualSaveButton_Click;
+            manualSaveButton.Click += ManualSaveButton_Click;
             // 
             // saveNameTextBox
             // 
@@ -151,13 +151,14 @@
             // 
             // savesListBox
             // 
+            savesListBox.ContextMenuStrip = savesListBoxContextMenu;
             savesListBox.FormattingEnabled = true;
             savesListBox.ItemHeight = 15;
             savesListBox.Location = new Point(12, 70);
             savesListBox.Name = "savesListBox";
             savesListBox.Size = new Size(308, 184);
             savesListBox.TabIndex = 15;
-            savesListBox.MouseDown += savesListBox_MouseDown;
+            savesListBox.MouseDown += SavesListBox_MouseDown;
             // 
             // savesListBoxContextMenu
             // 
@@ -170,14 +171,14 @@
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             loadToolStripMenuItem.Size = new Size(107, 22);
             loadToolStripMenuItem.Text = "Load";
-            loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
+            loadToolStripMenuItem.Click += LoadToolStripMenuItem_Click;
             // 
             // deleteToolStripMenuItem
             // 
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             deleteToolStripMenuItem.Size = new Size(107, 22);
             deleteToolStripMenuItem.Text = "Delete";
-            deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
+            deleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             // 
             // quickSaveHotKeyTextBox
             // 
@@ -185,7 +186,7 @@
             quickSaveHotKeyTextBox.Name = "quickSaveHotKeyTextBox";
             quickSaveHotKeyTextBox.Size = new Size(159, 23);
             quickSaveHotKeyTextBox.TabIndex = 16;
-            quickSaveHotKeyTextBox.TextChanged += quickSaveHotKeyTextBox_TextChanged;
+            quickSaveHotKeyTextBox.TextChanged += QuickSaveHotKeyTextBox_TextChanged;
             // 
             // browseSaveFolderButton
             // 
@@ -195,7 +196,7 @@
             browseSaveFolderButton.TabIndex = 17;
             browseSaveFolderButton.Text = "browse";
             browseSaveFolderButton.UseVisualStyleBackColor = true;
-            browseSaveFolderButton.Click += browseSaveFolderButton_Click;
+            browseSaveFolderButton.Click += BrowseSaveFolderButton_Click;
             // 
             // browseBackupFolderButton
             // 
@@ -205,9 +206,9 @@
             browseBackupFolderButton.TabIndex = 18;
             browseBackupFolderButton.Text = "browse";
             browseBackupFolderButton.UseVisualStyleBackColor = true;
-            browseBackupFolderButton.Click += browseBackupFolderButton_Click;
+            browseBackupFolderButton.Click += BrowseBackupFolderButton_Click;
             // 
-            // Form1
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -227,7 +228,7 @@
             Controls.Add(savePathTextBox);
             Controls.Add(label4);
             Controls.Add(backupPathTextBox);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "LPSFM";
             savesListBoxContextMenu.ResumeLayout(false);
             ResumeLayout(false);
@@ -237,7 +238,6 @@
         #endregion
         private Label label4;
         private TextBox backupPathTextBox;
-        private Label label1;
         private Label label2;
         private TextBox savePathTextBox;
         private TextBox logTextBox;

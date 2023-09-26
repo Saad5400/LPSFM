@@ -4,23 +4,38 @@ using WK.Libraries.HotkeyListenerNS;
 
 namespace LPSFM;
 
-public partial class Form1 : Form
+public partial class MainForm : Form
 {
     private readonly Settings _settings = Settings.Default;
 
     private readonly HotkeyListener _hkl = new();
-    private Hotkey _quickSaveHotKey;
+    private Hotkey _quickSaveHotKey = null!;
 
     private const string DatetimeFormat = "yyyyMMddHHmm";
     private const int DateIndex = 0;
     private const int NameIndex = 1;
 
-    public Form1()
+    public MainForm()
     {
         InitializeComponent();
 
-        Log("LPSFM v" + Application.ProductVersion);
+        ConfigureBackupPath();
+        ConfigureSavePath();
+        ConfigureHotkey();
+        ListSaves();
 
+        Log("LPSFM v" + Application.ProductVersion);
+    }
+
+    public void Log(string message)
+    {
+        logTextBox.Text = DateTime.Now.ToString("mm:ss") + @": " + message + Environment.NewLine + logTextBox.Text;
+    }
+
+    #region inital setup
+
+    public void ConfigureSavePath()
+    {
         if (string.IsNullOrEmpty(_settings.SavePath))
         {
             try
@@ -28,7 +43,7 @@ public partial class Form1 : Form
                 var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 path = Path.Combine(path, "Packages");
                 path = Directory.GetDirectories(path).FirstOrDefault(x => x.Contains("Neowiz"));
-                path = Path.Combine(path, "SystemAppData", "wgs");
+                path = Path.Combine(path!, "SystemAppData", "wgs");
                 path = Directory.GetDirectories(path).OrderByDescending(x => x.Length).First();
                 _settings.SavePath = path;
 
@@ -40,6 +55,13 @@ public partial class Form1 : Form
             }
         }
 
+        _settings.Save();
+
+        savePathTextBox.Text = _settings.SavePath;
+    }
+
+    public void ConfigureBackupPath()
+    {
         if (string.IsNullOrEmpty(_settings.BackupPath))
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -55,31 +77,73 @@ public partial class Form1 : Form
 
         _settings.Save();
 
-        savePathTextBox.Text = _settings.SavePath;
         backupPathTextBox.Text = _settings.BackupPath;
+    }
+
+    public void ConfigureHotkey()
+    {
         quickSaveHotKeyTextBox.Text = _settings.QuickSaveHotKey;
-
-        savesListBox.ContextMenuStrip = savesListBoxContextMenu;
-
-        ListSaves();
-
         _quickSaveHotKey = new Hotkey(_settings.QuickSaveHotKey);
         _hkl.Add(_quickSaveHotKey);
         _hkl.HotkeyPressed += Hkl_HotkeyPressed;
     }
 
-    public void Log(string message)
+    #endregion
+
+    #region save
+
+    public void Save(string name)
     {
-        logTextBox.Text = DateTime.Now.ToString("mm:ss") + @": " + message + Environment.NewLine + logTextBox.Text;
+        var path = backupPathTextBox.Text;
+
+        Directory.GetDirectories(path)
+            .Where(x =>
+            {
+                var dirName = new DirectoryInfo(x).Name;
+                return dirName.Split('_')[NameIndex].Equals(name);
+            })
+            .ToList()
+            .ForEach(x => Directory.Delete(x, true));
+
+        var dir = $"{DateTime.Now.ToString(DatetimeFormat)}_{name}";
+
+        path = Path.Combine(path, dir);
+        Helpers.CopyFilesRecursively(savePathTextBox.Text, path);
+
+        ListSaves();
+
+        Log("Saved " + name + ".");
     }
 
-    private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
+    private void QuickSaveButton_Click(object sender, EventArgs e)
     {
-        if (e.Hotkey == _quickSaveHotKey)
-        {
-            quickSaveButton.PerformClick();
-        }
+        var name = "Quick Save";
+        Save(name);
     }
+
+    private void ManualSaveButton_Click(object sender, EventArgs e)
+    {
+        var name = saveNameTextBox.Text;
+
+        if (string.IsNullOrEmpty(name))
+        {
+            MessageBox.Show(@"Please enter a name for the save.");
+            return;
+        }
+
+        if (Path.GetInvalidFileNameChars().Any(c => name.Contains(c)))
+        {
+            MessageBox.Show(@"Please enter a valid name for a windows directory.");
+            return;
+        }
+
+        name = name.Replace("_", " ");
+        Save(name);
+    }
+
+    #endregion
+
+    #region list box
 
     public void ListSaves()
     {
@@ -109,63 +173,24 @@ public partial class Form1 : Form
                 }
             })
             .Where(x => x is not null)
-            .OrderByDescending(x => x.Date)
-            .Select(x => x.Name)
+            .OrderByDescending(x => x!.Date)
+            .Select(x => x!.Name)
             .ToList();
 
         saves.ForEach(x => savesListBox.Items.Add(x));
     }
 
-    public void Save(string name)
+
+    private void SavesListBox_MouseDown(object sender, MouseEventArgs e)
     {
-        var path = backupPathTextBox.Text;
-
-        Directory.GetDirectories(path)
-            .Where(x =>
-            {
-                var dirName = new DirectoryInfo(x).Name;
-                return dirName.Split('_')[NameIndex].Equals(name);
-            })
-            .ToList()
-            .ForEach(x => Directory.Delete(x, true));
-
-        var dir = $"{DateTime.Now.ToString(DatetimeFormat)}_{name}";
-
-        path = Path.Combine(path, dir);
-        Helpers.CopyFilesRecursively(savePathTextBox.Text, path);
-
-        ListSaves();
-
-        Log("Saved " + name + ".");
+        savesListBox.SelectedIndex = savesListBox.IndexFromPoint(e.Location);
     }
 
-    private void quickSaveButton_Click(object sender, EventArgs e)
-    {
-        var name = "Quick Save";
-        Save(name);
-    }
+    #endregion
 
-    private void manualSaveButton_Click(object sender, EventArgs e)
-    {
-        var name = saveNameTextBox.Text;
+    #region strip menu
 
-        if (string.IsNullOrEmpty(name))
-        {
-            MessageBox.Show(@"Please enter a name for the save.");
-            return;
-        }
-
-        if (Path.GetInvalidFileNameChars().Any(c => name.Contains(c)))
-        {
-            MessageBox.Show(@"Please enter a valid name for a windows directory.");
-            return;
-        }
-
-        name = name.Replace("_", " ");
-        Save(name);
-    }
-
-    private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+    private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
     {
         if (savesListBox.SelectedItem == null)
         {
@@ -175,10 +200,6 @@ public partial class Form1 : Form
 
         var name = savesListBox.SelectedItem.ToString();
 
-        var confirmResult = MessageBox.Show($@"Are you sure you want to load '{name}'? This will overwrite your current save.", @"Confirm Load", MessageBoxButtons.YesNo);
-
-        if (confirmResult != DialogResult.Yes) return;
-
         var dir = Directory.GetDirectories(backupPathTextBox.Text)
             .FirstOrDefault(x =>
             {
@@ -186,12 +207,19 @@ public partial class Form1 : Form
                 return dirName.Split('_')[NameIndex].Equals(name);
             });
 
+        if (dir is null)
+        {
+            Log(@"Could not find save folder.");
+            return;
+        };
+
+        Save("Backup");
         Helpers.CopyFilesRecursively(dir, savePathTextBox.Text);
 
         Log("Loaded " + name + ".");
     }
 
-    public void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+    public void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
     {
         if (savesListBox.SelectedItem == null)
         {
@@ -212,6 +240,12 @@ public partial class Form1 : Form
                 return dirName.Split('_')[NameIndex].Equals(name);
             });
 
+        if (dir is null)
+        {
+            Log(@"Could not find save folder.");
+            return;
+        };
+
         Directory.Delete(dir, true);
 
         ListSaves();
@@ -219,7 +253,11 @@ public partial class Form1 : Form
         Log("Deleted " + name + ".");
     }
 
-    private void quickSaveHotKeyTextBox_TextChanged(object sender, EventArgs e)
+    #endregion
+
+    #region hotkey
+
+    private void QuickSaveHotKeyTextBox_TextChanged(object sender, EventArgs e)
     {
         try
         {
@@ -236,7 +274,19 @@ public partial class Form1 : Form
         }
     }
 
-    private void browseSaveFolderButton_Click(object sender, EventArgs e)
+    private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
+    {
+        if (e.Hotkey == _quickSaveHotKey)
+        {
+            quickSaveButton.PerformClick();
+        }
+    }
+
+    #endregion
+
+    #region browse buttons
+
+    private void BrowseSaveFolderButton_Click(object sender, EventArgs e)
     {
         folderBrowserDialog.SelectedPath = savePathTextBox.Text;
         var result = folderBrowserDialog.ShowDialog();
@@ -249,7 +299,7 @@ public partial class Form1 : Form
         }
     }
 
-    private void browseBackupFolderButton_Click(object sender, EventArgs e)
+    private void BrowseBackupFolderButton_Click(object sender, EventArgs e)
     {
         folderBrowserDialog.SelectedPath = backupPathTextBox.Text;
         var result = folderBrowserDialog.ShowDialog();
@@ -263,8 +313,5 @@ public partial class Form1 : Form
         }
     }
 
-    private void savesListBox_MouseDown(object sender, MouseEventArgs e)
-    {
-        savesListBox.SelectedIndex = savesListBox.IndexFromPoint(e.Location);
-    }
+    #endregion
 }
