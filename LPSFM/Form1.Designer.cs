@@ -44,6 +44,7 @@
             savesListBoxContextMenu = new ContextMenuStrip(components);
             loadToolStripMenuItem = new ToolStripMenuItem();
             deleteToolStripMenuItem = new ToolStripMenuItem();
+            quickSaveHotKeyTextBox = new TextBox();
             savesListBoxContextMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -62,6 +63,7 @@
             backupPathTextBox.Name = "backupPathTextBox";
             backupPathTextBox.Size = new Size(238, 23);
             backupPathTextBox.TabIndex = 2;
+            backupPathTextBox.TextChanged += backupPathTextBox_TextChanged;
             // 
             // label2
             // 
@@ -78,6 +80,7 @@
             savePathTextBox.Name = "savePathTextBox";
             savePathTextBox.Size = new Size(238, 23);
             savePathTextBox.TabIndex = 6;
+            savePathTextBox.TextChanged += savePathTextBox_TextChanged;
             // 
             // logTextBox
             // 
@@ -130,9 +133,9 @@
             label5.AutoSize = true;
             label5.Location = new Point(112, 45);
             label5.Name = "label5";
-            label5.Size = new Size(40, 15);
+            label5.Size = new Size(37, 15);
             label5.TabIndex = 13;
-            label5.Text = "name:";
+            label5.Text = "name";
             // 
             // label6
             // 
@@ -156,27 +159,36 @@
             // 
             savesListBoxContextMenu.Items.AddRange(new ToolStripItem[] { loadToolStripMenuItem, deleteToolStripMenuItem });
             savesListBoxContextMenu.Name = "contextMenuStrip1";
-            savesListBoxContextMenu.Size = new Size(181, 70);
+            savesListBoxContextMenu.Size = new Size(108, 48);
             // 
             // loadToolStripMenuItem
             // 
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            loadToolStripMenuItem.Size = new Size(180, 22);
+            loadToolStripMenuItem.Size = new Size(107, 22);
             loadToolStripMenuItem.Text = "Load";
             loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
             // 
             // deleteToolStripMenuItem
             // 
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            deleteToolStripMenuItem.Size = new Size(180, 22);
+            deleteToolStripMenuItem.Size = new Size(107, 22);
             deleteToolStripMenuItem.Text = "Delete";
             deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
+            // 
+            // quickSaveHotKeyTextBox
+            // 
+            quickSaveHotKeyTextBox.Location = new Point(161, 12);
+            quickSaveHotKeyTextBox.Name = "quickSaveHotKeyTextBox";
+            quickSaveHotKeyTextBox.Size = new Size(219, 23);
+            quickSaveHotKeyTextBox.TabIndex = 16;
+            quickSaveHotKeyTextBox.TextChanged += quickSaveHotKeyTextBox_TextChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(392, 470);
+            Controls.Add(quickSaveHotKeyTextBox);
             Controls.Add(savesListBox);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -214,5 +226,6 @@
         private ContextMenuStrip savesListBoxContextMenu;
         private ToolStripMenuItem loadToolStripMenuItem;
         private ToolStripMenuItem deleteToolStripMenuItem;
+        private TextBox quickSaveHotKeyTextBox;
     }
 }

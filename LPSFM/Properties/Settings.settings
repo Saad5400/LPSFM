@@ -8,5 +8,8 @@
     <Setting Name="SavePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="QuickSaveHotKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Control+Shift+Q</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

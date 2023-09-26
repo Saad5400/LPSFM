@@ -46,5 +46,17 @@ namespace LPSFM.Properties {
                 this["SavePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Control+Shift+Q")]
+        public string QuickSaveHotKey {
+            get {
+                return ((string)(this["QuickSaveHotKey"]));
+            }
+            set {
+                this["QuickSaveHotKey"] = value;
+            }
+        }
     }
 }
