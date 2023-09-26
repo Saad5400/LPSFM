@@ -23,14 +23,21 @@ public partial class Form1 : Form
 
         if (string.IsNullOrEmpty(_settings.SavePath))
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            path = Path.Combine(path, "Packages");
-            path = Directory.GetDirectories(path).FirstOrDefault(x => x.Contains("Neowiz"));
-            path = Path.Combine(path, "SystemAppData", "wgs");
-            path = Directory.GetDirectories(path).OrderByDescending(x => x.Length).First();
-            _settings.SavePath = path;
+            try
+            {
+                var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                path = Path.Combine(path, "Packages");
+                path = Directory.GetDirectories(path).FirstOrDefault(x => x.Contains("Neowiz"));
+                path = Path.Combine(path, "SystemAppData", "wgs");
+                path = Directory.GetDirectories(path).OrderByDescending(x => x.Length).First();
+                _settings.SavePath = path;
 
-            Log("Save path not set, using " + path);
+                Log("Save path not set, using " + path);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(@"Could not find save path. Please set it manually.");
+            }
         }
 
         if (string.IsNullOrEmpty(_settings.BackupPath))
@@ -113,11 +120,6 @@ public partial class Form1 : Form
     {
         var path = backupPathTextBox.Text;
 
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
-
         Directory.GetDirectories(path)
             .Where(x =>
             {
@@ -128,7 +130,7 @@ public partial class Form1 : Form
             .ForEach(x => Directory.Delete(x, true));
 
         var dir = $"{DateTime.Now.ToString(DatetimeFormat)}_{name}";
-        Directory.CreateDirectory(dir);
+
         path = Path.Combine(path, dir);
         Helpers.CopyFilesRecursively(savePathTextBox.Text, path);
 
