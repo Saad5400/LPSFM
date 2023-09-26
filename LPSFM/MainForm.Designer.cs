@@ -49,6 +49,7 @@
             browseSaveFolderButton = new Button();
             browseBackupFolderButton = new Button();
             folderBrowserDialog = new FolderBrowserDialog();
+            internetButton = new Button();
             savesListBoxContextMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -56,7 +57,7 @@
             // 
             label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new Point(12, 301);
+            label4.Location = new Point(12, 359);
             label4.Name = "label4";
             label4.Size = new Size(109, 15);
             label4.TabIndex = 3;
@@ -65,17 +66,17 @@
             // backupPathTextBox
             // 
             backupPathTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            backupPathTextBox.Location = new Point(12, 319);
+            backupPathTextBox.Location = new Point(12, 377);
             backupPathTextBox.Name = "backupPathTextBox";
             backupPathTextBox.ReadOnly = true;
-            backupPathTextBox.Size = new Size(245, 23);
+            backupPathTextBox.Size = new Size(260, 23);
             backupPathTextBox.TabIndex = 2;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new Point(12, 257);
+            label2.Location = new Point(12, 315);
             label2.Name = "label2";
             label2.Size = new Size(94, 15);
             label2.TabIndex = 7;
@@ -84,28 +85,28 @@
             // savePathTextBox
             // 
             savePathTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            savePathTextBox.Location = new Point(12, 275);
+            savePathTextBox.Location = new Point(12, 333);
             savePathTextBox.Name = "savePathTextBox";
             savePathTextBox.ReadOnly = true;
-            savePathTextBox.Size = new Size(245, 23);
+            savePathTextBox.Size = new Size(260, 23);
             savePathTextBox.TabIndex = 6;
             // 
             // logTextBox
             // 
             logTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            logTextBox.Location = new Point(45, 348);
+            logTextBox.Location = new Point(45, 406);
             logTextBox.Multiline = true;
             logTextBox.Name = "logTextBox";
             logTextBox.ReadOnly = true;
             logTextBox.ScrollBars = ScrollBars.Vertical;
-            logTextBox.Size = new Size(275, 51);
+            logTextBox.Size = new Size(290, 51);
             logTextBox.TabIndex = 8;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label3.AutoSize = true;
-            label3.Location = new Point(12, 345);
+            label3.Location = new Point(12, 403);
             label3.Name = "label3";
             label3.Size = new Size(27, 15);
             label3.TabIndex = 9;
@@ -136,7 +137,7 @@
             saveNameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             saveNameTextBox.Location = new Point(161, 41);
             saveNameTextBox.Name = "saveNameTextBox";
-            saveNameTextBox.Size = new Size(159, 23);
+            saveNameTextBox.Size = new Size(174, 23);
             saveNameTextBox.TabIndex = 12;
             // 
             // label5
@@ -165,7 +166,7 @@
             savesListBox.ItemHeight = 15;
             savesListBox.Location = new Point(12, 70);
             savesListBox.Name = "savesListBox";
-            savesListBox.Size = new Size(308, 184);
+            savesListBox.Size = new Size(323, 214);
             savesListBox.TabIndex = 15;
             savesListBox.MouseDown += SavesListBox_MouseDown;
             // 
@@ -194,14 +195,14 @@
             quickSaveHotKeyTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             quickSaveHotKeyTextBox.Location = new Point(161, 12);
             quickSaveHotKeyTextBox.Name = "quickSaveHotKeyTextBox";
-            quickSaveHotKeyTextBox.Size = new Size(159, 23);
+            quickSaveHotKeyTextBox.Size = new Size(174, 23);
             quickSaveHotKeyTextBox.TabIndex = 16;
             quickSaveHotKeyTextBox.TextChanged += QuickSaveHotKeyTextBox_TextChanged;
             // 
             // browseSaveFolderButton
             // 
             browseSaveFolderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            browseSaveFolderButton.Location = new Point(263, 275);
+            browseSaveFolderButton.Location = new Point(278, 333);
             browseSaveFolderButton.Name = "browseSaveFolderButton";
             browseSaveFolderButton.Size = new Size(57, 23);
             browseSaveFolderButton.TabIndex = 17;
@@ -212,7 +213,7 @@
             // browseBackupFolderButton
             // 
             browseBackupFolderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            browseBackupFolderButton.Location = new Point(263, 319);
+            browseBackupFolderButton.Location = new Point(278, 377);
             browseBackupFolderButton.Name = "browseBackupFolderButton";
             browseBackupFolderButton.Size = new Size(57, 23);
             browseBackupFolderButton.TabIndex = 18;
@@ -220,11 +221,23 @@
             browseBackupFolderButton.UseVisualStyleBackColor = true;
             browseBackupFolderButton.Click += BrowseBackupFolderButton_Click;
             // 
+            // internetButton
+            // 
+            internetButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            internetButton.Location = new Point(12, 289);
+            internetButton.Name = "internetButton";
+            internetButton.Size = new Size(323, 23);
+            internetButton.TabIndex = 19;
+            internetButton.Text = "Disable Internet";
+            internetButton.UseVisualStyleBackColor = true;
+            internetButton.Click += InternetButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(332, 413);
+            ClientSize = new Size(347, 471);
+            Controls.Add(internetButton);
             Controls.Add(browseBackupFolderButton);
             Controls.Add(browseSaveFolderButton);
             Controls.Add(quickSaveHotKeyTextBox);
@@ -268,5 +281,6 @@
         private Button browseSaveFolderButton;
         private Button browseBackupFolderButton;
         private FolderBrowserDialog folderBrowserDialog;
+        private Button internetButton;
     }
 }

@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net.NetworkInformation;
 using System.Xml.Linq;
 using LPSFM.Properties;
 using WK.Libraries.HotkeyListenerNS;
@@ -16,6 +17,8 @@ public partial class MainForm : Form
     private const int DateIndex = 0;
     private const int NameIndex = 1;
 
+    private bool _internet = true;
+
     public MainForm()
     {
         InitializeComponent();
@@ -24,6 +27,7 @@ public partial class MainForm : Form
         ConfigureSavePath();
         ConfigureHotkey();
         ListSaves();
+        ConfigureFunctionButtons();
 
         Log("LPSFM v" + Application.ProductVersion);
     }
@@ -87,6 +91,11 @@ public partial class MainForm : Form
         _quickSaveHotKey = new Hotkey(_settings.QuickSaveHotKey);
         _hkl.Add(_quickSaveHotKey);
         _hkl.HotkeyPressed += Hkl_HotkeyPressed;
+    }
+
+    public void ConfigureFunctionButtons()
+    {
+        internetButton.Text = _internet ? @"Disable Internet" : @"Enable Internet";
     }
 
     #endregion
@@ -315,6 +324,24 @@ public partial class MainForm : Form
             _settings.Save();
             ListSaves();
         }
+    }
+
+    #endregion
+
+    #region functions
+
+    private void InternetButton_Click(object sender, EventArgs e)
+    {
+        if (_internet)
+        {
+            System.Diagnostics.Process.Start("ipconfig", "/release");
+        }
+        else
+        {
+            System.Diagnostics.Process.Start("ipconfig", "/renew");
+        }
+        _internet = !_internet;
+        ConfigureFunctionButtons();
     }
 
     #endregion
