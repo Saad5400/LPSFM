@@ -157,6 +157,7 @@
             savesListBox.Name = "savesListBox";
             savesListBox.Size = new Size(308, 184);
             savesListBox.TabIndex = 15;
+            savesListBox.MouseDown += savesListBox_MouseDown;
             // 
             // savesListBoxContextMenu
             // 

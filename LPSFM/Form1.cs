@@ -173,11 +173,11 @@ public partial class Form1 : Form
             return;
         }
 
-        var confirmResult = MessageBox.Show(@"Are you sure you want to load this save? This will overwrite your current save.", @"Confirm Load", MessageBoxButtons.YesNo);
+        var name = savesListBox.SelectedItem.ToString();
+
+        var confirmResult = MessageBox.Show($@"Are you sure you want to load '{name}'? This will overwrite your current save.", @"Confirm Load", MessageBoxButtons.YesNo);
 
         if (confirmResult != DialogResult.Yes) return;
-
-        var name = savesListBox.SelectedItem.ToString();
 
         var dir = Directory.GetDirectories(backupPathTextBox.Text)
             .FirstOrDefault(x =>
@@ -199,11 +199,11 @@ public partial class Form1 : Form
             return;
         }
 
-        var confirmResult = MessageBox.Show(@"Are you sure you want to delete this save?", @"Confirm Delete", MessageBoxButtons.YesNo);
+        var name = savesListBox.SelectedItem.ToString();
+
+        var confirmResult = MessageBox.Show($@"Are you sure you want to delete '{name}' save files?", @"Confirm Delete", MessageBoxButtons.YesNo);
 
         if (confirmResult != DialogResult.Yes) return;
-
-        var name = savesListBox.SelectedItem.ToString();
 
         var dir = Directory.GetDirectories(backupPathTextBox.Text)
             .FirstOrDefault(x =>
@@ -261,5 +261,10 @@ public partial class Form1 : Form
             _settings.Save();
             ListSaves();
         }
+    }
+
+    private void savesListBox_MouseDown(object sender, MouseEventArgs e)
+    {
+        savesListBox.SelectedIndex = savesListBox.IndexFromPoint(e.Location);
     }
 }
