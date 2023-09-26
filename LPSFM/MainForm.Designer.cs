@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             label4 = new Label();
             backupPathTextBox = new TextBox();
             label2 = new Label();
@@ -53,6 +54,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label4.AutoSize = true;
             label4.Location = new Point(12, 301);
             label4.Name = "label4";
@@ -62,6 +64,7 @@
             // 
             // backupPathTextBox
             // 
+            backupPathTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             backupPathTextBox.Location = new Point(12, 319);
             backupPathTextBox.Name = "backupPathTextBox";
             backupPathTextBox.ReadOnly = true;
@@ -70,6 +73,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
             label2.Location = new Point(12, 257);
             label2.Name = "label2";
@@ -79,6 +83,7 @@
             // 
             // savePathTextBox
             // 
+            savePathTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             savePathTextBox.Location = new Point(12, 275);
             savePathTextBox.Name = "savePathTextBox";
             savePathTextBox.ReadOnly = true;
@@ -87,6 +92,7 @@
             // 
             // logTextBox
             // 
+            logTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             logTextBox.Location = new Point(45, 348);
             logTextBox.Multiline = true;
             logTextBox.Name = "logTextBox";
@@ -97,6 +103,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label3.AutoSize = true;
             label3.Location = new Point(12, 345);
             label3.Name = "label3";
@@ -108,7 +115,7 @@
             // 
             quickSaveButton.Location = new Point(12, 12);
             quickSaveButton.Name = "quickSaveButton";
-            quickSaveButton.Size = new Size(94, 23);
+            quickSaveButton.Size = new Size(94, 25);
             quickSaveButton.TabIndex = 10;
             quickSaveButton.Text = "Quick Save";
             quickSaveButton.UseVisualStyleBackColor = true;
@@ -126,6 +133,7 @@
             // 
             // saveNameTextBox
             // 
+            saveNameTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             saveNameTextBox.Location = new Point(161, 41);
             saveNameTextBox.Name = "saveNameTextBox";
             saveNameTextBox.Size = new Size(159, 23);
@@ -151,6 +159,7 @@
             // 
             // savesListBox
             // 
+            savesListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             savesListBox.ContextMenuStrip = savesListBoxContextMenu;
             savesListBox.FormattingEnabled = true;
             savesListBox.ItemHeight = 15;
@@ -182,6 +191,7 @@
             // 
             // quickSaveHotKeyTextBox
             // 
+            quickSaveHotKeyTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             quickSaveHotKeyTextBox.Location = new Point(161, 12);
             quickSaveHotKeyTextBox.Name = "quickSaveHotKeyTextBox";
             quickSaveHotKeyTextBox.Size = new Size(159, 23);
@@ -190,6 +200,7 @@
             // 
             // browseSaveFolderButton
             // 
+            browseSaveFolderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             browseSaveFolderButton.Location = new Point(263, 275);
             browseSaveFolderButton.Name = "browseSaveFolderButton";
             browseSaveFolderButton.Size = new Size(57, 23);
@@ -200,6 +211,7 @@
             // 
             // browseBackupFolderButton
             // 
+            browseBackupFolderButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             browseBackupFolderButton.Location = new Point(263, 319);
             browseBackupFolderButton.Name = "browseBackupFolderButton";
             browseBackupFolderButton.Size = new Size(57, 23);
@@ -228,6 +240,7 @@
             Controls.Add(savePathTextBox);
             Controls.Add(label4);
             Controls.Add(backupPathTextBox);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             Text = "LPSFM";
             savesListBoxContextMenu.ResumeLayout(false);
