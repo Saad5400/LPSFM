@@ -78,16 +78,30 @@ public partial class Form1 : Form
     {
         savesListBox.Items.Clear();
 
-        var path = _settings.BackupPath;
+        var path = backupPathTextBox.Text;
+
+        if (!Directory.Exists(path))
+            return;
 
         var saves = Directory.GetDirectories(path)
             .Select(x => new DirectoryInfo(x).Name)
             .Select(x => x.Split('_'))
-            .Select(x => new
+            .Select(x =>
             {
-                Date = DateTime.ParseExact(x[DateIndex], DatetimeFormat, CultureInfo.InvariantCulture),
-                Name = x[NameIndex]
+                try
+                {
+                    return new
+                    {
+                        Date = DateTime.ParseExact(x[DateIndex], DatetimeFormat, CultureInfo.InvariantCulture),
+                        Name = x[NameIndex]
+                    };
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             })
+            .Where(x => x is not null)
             .OrderByDescending(x => x.Date)
             .Select(x => x.Name)
             .ToList();
@@ -97,7 +111,12 @@ public partial class Form1 : Form
 
     public void Save(string name)
     {
-        var path = _settings.BackupPath;
+        var path = backupPathTextBox.Text;
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
 
         Directory.GetDirectories(path)
             .Where(x =>
@@ -111,7 +130,7 @@ public partial class Form1 : Form
         var dir = $"{DateTime.Now.ToString(DatetimeFormat)}_{name}";
         Directory.CreateDirectory(dir);
         path = Path.Combine(path, dir);
-        Helpers.CopyFilesRecursively(_settings.SavePath, path);
+        Helpers.CopyFilesRecursively(savePathTextBox.Text, path);
 
         ListSaves();
 
@@ -158,14 +177,14 @@ public partial class Form1 : Form
 
         var name = savesListBox.SelectedItem.ToString();
 
-        var dir = Directory.GetDirectories(_settings.BackupPath)
+        var dir = Directory.GetDirectories(backupPathTextBox.Text)
             .FirstOrDefault(x =>
             {
                 var dirName = new DirectoryInfo(x).Name;
                 return dirName.Split('_')[NameIndex].Equals(name);
             });
 
-        Helpers.CopyFilesRecursively(dir, _settings.SavePath);
+        Helpers.CopyFilesRecursively(dir, savePathTextBox.Text);
 
         Log("Loaded " + name + ".");
     }
@@ -184,7 +203,7 @@ public partial class Form1 : Form
 
         var name = savesListBox.SelectedItem.ToString();
 
-        var dir = Directory.GetDirectories(_settings.BackupPath)
+        var dir = Directory.GetDirectories(backupPathTextBox.Text)
             .FirstOrDefault(x =>
             {
                 var dirName = new DirectoryInfo(x).Name;
@@ -215,15 +234,30 @@ public partial class Form1 : Form
         }
     }
 
-    private void savePathTextBox_TextChanged(object sender, EventArgs e)
+    private void browseSaveFolderButton_Click(object sender, EventArgs e)
     {
-        _settings.SavePath = savePathTextBox.Text;
-        _settings.Save();
+        folderBrowserDialog.SelectedPath = savePathTextBox.Text;
+        var result = folderBrowserDialog.ShowDialog();
+
+        if (result == DialogResult.OK)
+        {
+            savePathTextBox.Text = folderBrowserDialog.SelectedPath;
+            _settings.SavePath = folderBrowserDialog.SelectedPath;
+            _settings.Save();
+        }
     }
 
-    private void backupPathTextBox_TextChanged(object sender, EventArgs e)
+    private void browseBackupFolderButton_Click(object sender, EventArgs e)
     {
-        _settings.BackupPath = backupPathTextBox.Text;
-        _settings.Save();
+        folderBrowserDialog.SelectedPath = backupPathTextBox.Text;
+        var result = folderBrowserDialog.ShowDialog();
+
+        if (result == DialogResult.OK)
+        {
+            backupPathTextBox.Text = folderBrowserDialog.SelectedPath;
+            _settings.BackupPath = folderBrowserDialog.SelectedPath;
+            _settings.Save();
+            ListSaves();
+        }
     }
 }

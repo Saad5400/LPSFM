@@ -45,6 +45,9 @@
             loadToolStripMenuItem = new ToolStripMenuItem();
             deleteToolStripMenuItem = new ToolStripMenuItem();
             quickSaveHotKeyTextBox = new TextBox();
+            browseSaveFolderButton = new Button();
+            browseBackupFolderButton = new Button();
+            folderBrowserDialog = new FolderBrowserDialog();
             savesListBoxContextMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,11 +62,11 @@
             // 
             // backupPathTextBox
             // 
-            backupPathTextBox.Location = new Point(142, 391);
+            backupPathTextBox.Location = new Point(127, 391);
             backupPathTextBox.Name = "backupPathTextBox";
-            backupPathTextBox.Size = new Size(238, 23);
+            backupPathTextBox.ReadOnly = true;
+            backupPathTextBox.Size = new Size(130, 23);
             backupPathTextBox.TabIndex = 2;
-            backupPathTextBox.TextChanged += backupPathTextBox_TextChanged;
             // 
             // label2
             // 
@@ -76,11 +79,11 @@
             // 
             // savePathTextBox
             // 
-            savePathTextBox.Location = new Point(142, 362);
+            savePathTextBox.Location = new Point(127, 362);
             savePathTextBox.Name = "savePathTextBox";
-            savePathTextBox.Size = new Size(238, 23);
+            savePathTextBox.ReadOnly = true;
+            savePathTextBox.Size = new Size(130, 23);
             savePathTextBox.TabIndex = 6;
-            savePathTextBox.TextChanged += savePathTextBox_TextChanged;
             // 
             // logTextBox
             // 
@@ -89,7 +92,7 @@
             logTextBox.Name = "logTextBox";
             logTextBox.ReadOnly = true;
             logTextBox.ScrollBars = ScrollBars.Vertical;
-            logTextBox.Size = new Size(335, 38);
+            logTextBox.Size = new Size(275, 38);
             logTextBox.TabIndex = 8;
             // 
             // label3
@@ -125,7 +128,7 @@
             // 
             saveNameTextBox.Location = new Point(161, 41);
             saveNameTextBox.Name = "saveNameTextBox";
-            saveNameTextBox.Size = new Size(219, 23);
+            saveNameTextBox.Size = new Size(159, 23);
             saveNameTextBox.TabIndex = 12;
             // 
             // label5
@@ -152,7 +155,7 @@
             savesListBox.ItemHeight = 15;
             savesListBox.Location = new Point(12, 70);
             savesListBox.Name = "savesListBox";
-            savesListBox.Size = new Size(368, 289);
+            savesListBox.Size = new Size(308, 289);
             savesListBox.TabIndex = 15;
             // 
             // savesListBoxContextMenu
@@ -179,15 +182,37 @@
             // 
             quickSaveHotKeyTextBox.Location = new Point(161, 12);
             quickSaveHotKeyTextBox.Name = "quickSaveHotKeyTextBox";
-            quickSaveHotKeyTextBox.Size = new Size(219, 23);
+            quickSaveHotKeyTextBox.Size = new Size(159, 23);
             quickSaveHotKeyTextBox.TabIndex = 16;
             quickSaveHotKeyTextBox.TextChanged += quickSaveHotKeyTextBox_TextChanged;
+            // 
+            // browseSaveFolderButton
+            // 
+            browseSaveFolderButton.Location = new Point(263, 362);
+            browseSaveFolderButton.Name = "browseSaveFolderButton";
+            browseSaveFolderButton.Size = new Size(57, 23);
+            browseSaveFolderButton.TabIndex = 17;
+            browseSaveFolderButton.Text = "browse";
+            browseSaveFolderButton.UseVisualStyleBackColor = true;
+            browseSaveFolderButton.Click += browseSaveFolderButton_Click;
+            // 
+            // browseBackupFolderButton
+            // 
+            browseBackupFolderButton.Location = new Point(263, 391);
+            browseBackupFolderButton.Name = "browseBackupFolderButton";
+            browseBackupFolderButton.Size = new Size(57, 23);
+            browseBackupFolderButton.TabIndex = 18;
+            browseBackupFolderButton.Text = "browse";
+            browseBackupFolderButton.UseVisualStyleBackColor = true;
+            browseBackupFolderButton.Click += browseBackupFolderButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(392, 470);
+            ClientSize = new Size(332, 470);
+            Controls.Add(browseBackupFolderButton);
+            Controls.Add(browseSaveFolderButton);
             Controls.Add(quickSaveHotKeyTextBox);
             Controls.Add(savesListBox);
             Controls.Add(label6);
@@ -212,7 +237,6 @@
         private Label label4;
         private TextBox backupPathTextBox;
         private Label label1;
-        private TextBox savePathOldTextBox;
         private Label label2;
         private TextBox savePathTextBox;
         private TextBox logTextBox;
@@ -227,5 +251,8 @@
         private ToolStripMenuItem loadToolStripMenuItem;
         private ToolStripMenuItem deleteToolStripMenuItem;
         private TextBox quickSaveHotKeyTextBox;
+        private Button browseSaveFolderButton;
+        private Button browseBackupFolderButton;
+        private FolderBrowserDialog folderBrowserDialog;
     }
 }
