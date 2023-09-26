@@ -54,7 +54,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(12, 394);
+            label4.Location = new Point(12, 301);
             label4.Name = "label4";
             label4.Size = new Size(109, 15);
             label4.TabIndex = 3;
@@ -62,16 +62,16 @@
             // 
             // backupPathTextBox
             // 
-            backupPathTextBox.Location = new Point(127, 391);
+            backupPathTextBox.Location = new Point(12, 319);
             backupPathTextBox.Name = "backupPathTextBox";
             backupPathTextBox.ReadOnly = true;
-            backupPathTextBox.Size = new Size(130, 23);
+            backupPathTextBox.Size = new Size(245, 23);
             backupPathTextBox.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 365);
+            label2.Location = new Point(12, 257);
             label2.Name = "label2";
             label2.Size = new Size(94, 15);
             label2.TabIndex = 7;
@@ -79,26 +79,26 @@
             // 
             // savePathTextBox
             // 
-            savePathTextBox.Location = new Point(127, 362);
+            savePathTextBox.Location = new Point(12, 275);
             savePathTextBox.Name = "savePathTextBox";
             savePathTextBox.ReadOnly = true;
-            savePathTextBox.Size = new Size(130, 23);
+            savePathTextBox.Size = new Size(245, 23);
             savePathTextBox.TabIndex = 6;
             // 
             // logTextBox
             // 
-            logTextBox.Location = new Point(45, 420);
+            logTextBox.Location = new Point(45, 348);
             logTextBox.Multiline = true;
             logTextBox.Name = "logTextBox";
             logTextBox.ReadOnly = true;
             logTextBox.ScrollBars = ScrollBars.Vertical;
-            logTextBox.Size = new Size(275, 38);
+            logTextBox.Size = new Size(275, 51);
             logTextBox.TabIndex = 8;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 420);
+            label3.Location = new Point(12, 345);
             label3.Name = "label3";
             label3.Size = new Size(27, 15);
             label3.TabIndex = 9;
@@ -155,7 +155,7 @@
             savesListBox.ItemHeight = 15;
             savesListBox.Location = new Point(12, 70);
             savesListBox.Name = "savesListBox";
-            savesListBox.Size = new Size(308, 289);
+            savesListBox.Size = new Size(308, 184);
             savesListBox.TabIndex = 15;
             // 
             // savesListBoxContextMenu
@@ -188,7 +188,7 @@
             // 
             // browseSaveFolderButton
             // 
-            browseSaveFolderButton.Location = new Point(263, 362);
+            browseSaveFolderButton.Location = new Point(263, 275);
             browseSaveFolderButton.Name = "browseSaveFolderButton";
             browseSaveFolderButton.Size = new Size(57, 23);
             browseSaveFolderButton.TabIndex = 17;
@@ -198,7 +198,7 @@
             // 
             // browseBackupFolderButton
             // 
-            browseBackupFolderButton.Location = new Point(263, 391);
+            browseBackupFolderButton.Location = new Point(263, 319);
             browseBackupFolderButton.Name = "browseBackupFolderButton";
             browseBackupFolderButton.Size = new Size(57, 23);
             browseBackupFolderButton.TabIndex = 18;
@@ -210,7 +210,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(332, 470);
+            ClientSize = new Size(332, 413);
             Controls.Add(browseBackupFolderButton);
             Controls.Add(browseSaveFolderButton);
             Controls.Add(quickSaveHotKeyTextBox);
