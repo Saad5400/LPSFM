@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Net.NetworkInformation;
 using System.Xml.Linq;
@@ -18,6 +19,7 @@ public partial class MainForm : Form
     private const int NameIndex = 1;
 
     private bool _internet = true;
+    private bool _explorer = true;
 
     public MainForm()
     {
@@ -96,6 +98,7 @@ public partial class MainForm : Form
     public void ConfigureFunctionButtons()
     {
         internetButton.Text = _internet ? @"Disable Internet" : @"Enable Internet";
+        explorerButton.Text = _explorer ? @"Disable Explorer" : @"Enable Explorer";
     }
 
     #endregion
@@ -335,12 +338,36 @@ public partial class MainForm : Form
         if (_internet)
         {
             System.Diagnostics.Process.Start("ipconfig", "/release");
+            _internet = false;
+            Log("Internet disabled.");
         }
         else
         {
             System.Diagnostics.Process.Start("ipconfig", "/renew");
+            _internet = true;
+            Log("Internet enabled.");
         }
-        _internet = !_internet;
+        ConfigureFunctionButtons();
+    }
+
+    private void ExplorerButton_Click(object sender, EventArgs e)
+    {
+        if (_explorer)
+        {
+            var processes = Process.GetProcessesByName("explorer");
+            foreach (var process in processes)
+            {
+                process.Kill();
+            }
+            _explorer = false;
+            Log("Explorer closed.");
+        }
+        else
+        {
+            Process.Start("explorer.exe");
+            _explorer = true;
+            Log("Explorer opened.");
+        }
         ConfigureFunctionButtons();
     }
 

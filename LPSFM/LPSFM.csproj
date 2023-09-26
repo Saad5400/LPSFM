@@ -8,8 +8,11 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Configurations>Debug;Release;test</Configurations>
 		<Version>1.0.2</Version>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Remove="app.manifest" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="HotkeyListener" Version="1.9.0" />

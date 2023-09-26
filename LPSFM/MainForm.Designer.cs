@@ -50,6 +50,7 @@
             browseBackupFolderButton = new Button();
             folderBrowserDialog = new FolderBrowserDialog();
             internetButton = new Button();
+            explorerButton = new Button();
             savesListBoxContextMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -226,17 +227,28 @@
             internetButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             internetButton.Location = new Point(12, 289);
             internetButton.Name = "internetButton";
-            internetButton.Size = new Size(323, 23);
+            internetButton.Size = new Size(164, 23);
             internetButton.TabIndex = 19;
             internetButton.Text = "Disable Internet";
             internetButton.UseVisualStyleBackColor = true;
             internetButton.Click += InternetButton_Click;
+            // 
+            // explorerButton
+            // 
+            explorerButton.Location = new Point(182, 289);
+            explorerButton.Name = "explorerButton";
+            explorerButton.Size = new Size(153, 23);
+            explorerButton.TabIndex = 20;
+            explorerButton.Text = "Disable Explorer";
+            explorerButton.UseVisualStyleBackColor = true;
+            explorerButton.Click += ExplorerButton_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(347, 471);
+            Controls.Add(explorerButton);
             Controls.Add(internetButton);
             Controls.Add(browseBackupFolderButton);
             Controls.Add(browseSaveFolderButton);
@@ -282,5 +294,6 @@
         private Button browseBackupFolderButton;
         private FolderBrowserDialog folderBrowserDialog;
         private Button internetButton;
+        private Button explorerButton;
     }
 }
