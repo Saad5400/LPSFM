@@ -120,6 +120,8 @@ public partial class MainForm : Form
         var dir = $"{DateTime.Now.ToString(DatetimeFormat)}_{name}";
 
         path = Path.Combine(path, dir);
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
         Helpers.CopyFilesRecursively(savePathTextBox.Text, path);
 
         ListSaves();
@@ -185,7 +187,7 @@ public partial class MainForm : Form
             })
             .Where(x => x is not null)
             .OrderByDescending(x => x!.Date)
-            .Select(x => x!.Name)
+            .Select(x => $"{x!.Date:yy-MM-dd HH:mm} _ {x!.Name}")
             .ToList();
 
         saves.ForEach(x => savesListBox.Items.Add(x));
@@ -203,7 +205,8 @@ public partial class MainForm : Form
 
     public bool TryGetSelectedItemName(out string? name)
     {
-        name = savesListBox.SelectedItem?.ToString();
+        name = savesListBox.SelectedItem?.ToString()
+            .Split('_')[1].Trim();
 
         if (name is null)
         {
@@ -230,6 +233,14 @@ public partial class MainForm : Form
         };
 
         return true;
+    }
+
+    private void OverwriteToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (!TryGetSelectedItemName(out var saveName))
+            return;
+
+        Save(saveName!);
     }
 
     private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
